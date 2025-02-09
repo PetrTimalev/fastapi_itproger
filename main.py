@@ -56,6 +56,7 @@ async def add_item(post: PostCreate) -> Post:
     return Post(**new_post)
 
 
+
 # @app.put("/items/edit/{id}")  # редактирование запросов, put запрос
 # async def add_item(post: PostCreate) -> Post:
 #     author = next((user for user in users if user['id'] == post.author_id), None)
@@ -68,7 +69,6 @@ async def add_item(post: PostCreate) -> Post:
 #     posts.append(new_post)
 #
 #     return Post(**new_post)
-
 
 @app.get("/items/{id}")  # используем Annotated[..., Path] в динамике{}
 async def items(id: Annotated[int, Path(..., title='Здесь указывается id поста', ge=1)]) -> Post:
