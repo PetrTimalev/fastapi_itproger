@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
-from typing import Optional, List, Dict
+from fastapi import FastAPI, HTTPException, Path, Query
+from typing import Optional, List, Dict, Annotated
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -56,16 +56,33 @@ async def add_item(post: PostCreate) -> Post:
     return Post(**new_post)
 
 
-@app.get("/items/{id}")
-async def items(id: int) -> Post:
+# @app.put("/items/edit/{id}")  # редактирование запросов, put запрос
+# async def add_item(post: PostCreate) -> Post:
+#     author = next((user for user in users if user['id'] == post.author_id), None)
+#     if not author:
+#         raise HTTPException(status_code=404, detail="User not found")
+#
+#     new_post_id = len(posts) + 1
+#
+#     new_post = {'id': new_post_id, 'title': post.title, 'body': post.body, 'author': author}
+#     posts.append(new_post)
+#
+#     return Post(**new_post)
+
+
+@app.get("/items/{id}")  # используем Annotated[..., Path] в динамике{}
+async def items(id: Annotated[int, Path(..., title='Здесь указывается id поста', ge=1)]) -> Post:
     for post in posts:
         if post['id'] == id:
             return Post(**post)
     raise HTTPException(status_code=404, detail="Input number: not more 3!!!")
 
 
-@app.get("/search")
-async def search(post_id: Optional[int] = None) -> Dict[str, Optional[Post]]:
+@app.get("/search")  # используем Annotated[..., Query] после апперсандов(?, &)
+async def search(post_id: Annotated[
+    Optional[int],
+    Query(title="ID of post to search for", ge=1, le=50)
+]) -> Dict[str, Optional[Post]]:
     if post_id:
         for post in posts:
             if post['id'] == post_id:
@@ -74,4 +91,4 @@ async def search(post_id: Optional[int] = None) -> Dict[str, Optional[Post]]:
     else:
         return {'data': None}
 
-# gt
+
