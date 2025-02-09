@@ -27,7 +27,7 @@ class PostCreate(BaseModel): # для добавления нового пост
 class UserCreate(BaseModel):   # для добавления нового пользователя
     # используем Annotated[Field]
     name: Annotated[str, Field(..., title="Имя пользователя", min_length=2, max_length=20)]
-    age: Annotated[int, Field(..., title="Возраст пользователя", ge=5, le=120)
+    age: Annotated[int, Field(..., title="Возраст пользователя", ge=5, le=120)]
 
 
 users = [
@@ -61,6 +61,15 @@ async def add_item(post: PostCreate) -> Post:
 
     return Post(**new_post)
 
+
+@app.post("/user/add")
+async def user_add(user: UserCreate) -> User:
+    new_user_id = len(users) + 1
+
+    new_user = {'id': new_user_id, 'name': user.name, 'age': user.age}
+    users.append(new_user)
+
+    return User(**new_user)
 
 @app.get("/items/{id}")  # используем Annotated[..., Path] в динамике{}
 async def items(id: Annotated[int, Path(..., title='Здесь указывается id поста', ge=1)]) -> Post:
