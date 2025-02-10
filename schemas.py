@@ -23,7 +23,12 @@ class PostBase(BaseModel):
     author_id: int
 
 
-class PostCreate(BaseModel): # для добавления нового поста
-    title: str
-    body: str
-    author_id: int
+class PostCreate(PostBase):  # для добавления нового поста
+    pass
+
+
+class Post(PostBase):
+    id: int
+
+    class Config:
+        orm_mode = True
