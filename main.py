@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Path, Query
+from fastapi import FastAPI, HTTPException, Path, Query, Body
 from typing import Optional, List, Dict, Annotated
 from pydantic import BaseModel, Field
 
@@ -62,8 +62,15 @@ async def add_item(post: PostCreate) -> Post:
     return Post(**new_post)
 
 
-@app.post("/user/add")
-async def user_add(user: UserCreate) -> User:
+@app.post("/user/add") # добавление нового user
+async def user_add(user: Annotated[
+    UserCreate,
+    Body(..., example={
+        'name': 'UserName',
+        'age': 10
+    })
+
+]) -> User: # используем Annotated[Body]
     new_user_id = len(users) + 1
 
     new_user = {'id': new_user_id, 'name': user.name, 'age': user.age}
