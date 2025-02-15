@@ -24,4 +24,4 @@ session_local = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 # Создаем базовый класс для объявления моделей (таблиц) базы данных
 # `declarative_base` возвращает базовый класс, от которого наследуются все модели
 # Этот класс используется для создания таблиц и работы с ними через ORM
-base = declarative_base()
+Base = declarative_base()

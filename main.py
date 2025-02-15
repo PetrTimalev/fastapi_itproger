@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException, Path, Query, Body
 from typing import Optional, List, Dict, Annotated
-from pydantic import BaseModel, Field
 
 app = FastAPI()
 

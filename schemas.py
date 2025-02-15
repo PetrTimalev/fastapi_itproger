@@ -29,6 +29,7 @@ class PostCreate(PostBase):  # для добавления нового пост
 
 class Post(PostBase):
     id: int
+    author: User
 
     class Config:
         orm_mode = True

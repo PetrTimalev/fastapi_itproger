@@ -99,6 +99,7 @@ async def items(id: Annotated[int, Path(..., title='Здесь указывае�
     # Если пост не найден, возвращаем ошибку 404
     raise HTTPException(status_code=404, detail="Input number: not more 3!!!")
 
+
 # Эндпоинт для поиска поста по ID через query-параметр
 @app.get("/search")
 async def search(post_id: Annotated[
