@@ -1,33 +1,12 @@
 from fastapi import FastAPI, HTTPException, Path, Query, Body
 from typing import Optional, List, Dict, Annotated
+from sqlalchemy.orm import Session
+
+from models import Base, User, Post
+from database import engine, session_local
+from schemas import  UserCreate, PostCreate, PostResponse
 
 app = FastAPI()
-
-
-class User(BaseModel):
-    id: int
-    name: str
-    age: int
-
-
-class Post(BaseModel):
-    id: int
-    title: str
-    body: str
-    author: User
-
-
-class PostCreate(BaseModel): # для добавления нового поста
-    title: str
-    body: str
-    author_id: int
-
-
-class UserCreate(BaseModel):   # для добавления нового пользователя
-    # используем Annotated[Field]
-    name: Annotated[str, Field(..., title="Имя пользователя", min_length=2, max_length=20)]
-    age: Annotated[int, Field(..., title="Возраст пользователя", ge=5, le=120)]
-
 
 users = [
     {'id': 1, 'name': 'Jonn', 'age': 20},
