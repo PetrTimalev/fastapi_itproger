@@ -4,21 +4,20 @@ from sqlalchemy.orm import Session
 
 from models import Base, User, Post
 from database import engine, session_local
-from schemas import  UserCreate, PostCreate, PostResponse
+from schemas import UserCreate, PostCreate, PostResponse
 
 app = FastAPI()
 
-users = [
-    {'id': 1, 'name': 'Jonn', 'age': 20},
-    {'id': 2, 'name': 'Pen', 'age': 30},
-    {'id': 3, 'name': 'Tom', 'age': 40},
-]
+Base.metadata.create_all(bind=engine)
 
-posts = [
-    {'id': 1, 'title': 'News1', 'body': 'Text1', 'author': users[1]},
-    {'id': 2, 'title': 'News2', 'body': 'Text2', 'author': users[2]},
-    {'id': 3, 'title': 'News3', 'body': 'Text3', 'author': users[0]},
-]
+
+def get_db():
+    db = session_local()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 
 @app.get("/items")
