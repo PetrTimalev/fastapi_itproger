@@ -10,6 +10,7 @@ class User(Base):
     name = Column(String, index=True)
     age = Column(Integer)
 
+
 class Post(Base):
     __tablename__ = 'posts'
 
@@ -18,6 +19,5 @@ class Post(Base):
     body = Column(String)
     author_id = Column(Integer, ForeignKey('users.id'))
 
-        author = relationship('User')
-    class Config:
-        orm_mode = True
+    author = relationship('User')
+

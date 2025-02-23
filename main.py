@@ -19,7 +19,7 @@ def get_db():  # подключение к базе
         db.close()
 
 
-@app.post("/user/", response_model=DbUser)
+@app.post("/users/", response_model=DbUser)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)) -> User:
     db_user = User(name=user.name, age=user.age)
     db.add(db_user)

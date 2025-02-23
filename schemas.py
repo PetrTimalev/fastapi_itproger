@@ -27,7 +27,7 @@ class PostCreate(PostBase):  # для добавления нового пост
     pass
 
 
-class Post(PostBase):
+class PostResponse(PostBase):
     id: int
     author: User
 
